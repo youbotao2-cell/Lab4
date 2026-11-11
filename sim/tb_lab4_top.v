@@ -1,7 +1,6 @@
 `timescale 1ns/1ps
 `include "lab4_defs.vh"
 
-// Fast integration scaffold. Full-duration debounce evidence is a separate run.
 module tb_lab4_top;
     reg sys_clk = 1'b0;
     reg sys_rst_n = 1'b1;
@@ -21,7 +20,6 @@ module tb_lab4_top;
     always #10 sys_clk = ~sys_clk;
     lab4_top #(.DEBOUNCE_CYCLES(8)) dut (.*);
 
-    // Measure a complete raster and active pixel count using the real timing.
     always @(posedge sys_clk) begin
         if (dut.u_timing.pixel_phase) begin
             pixel_steps = pixel_steps + 1;
@@ -62,7 +60,6 @@ module tb_lab4_top;
     endtask
     initial begin
         $dumpfile("build/lab4_top.vcd");
-        // No whole-raster counter dump: keep default VCD compact.
         $dumpvars(0, sys_clk, sys_rst_n, key_in, dut.click,
                      dut.ctrl_state, dut.display_state, dut.ctrl_rst_n);
         #3 sys_rst_n=1'b0;
@@ -72,7 +69,6 @@ module tb_lab4_top;
         click_and_wait(`SCREEN_END);
         click_and_wait(`SCREEN_BAR);
         if (clicks != 3) $fatal(1, "three physical presses did not yield 3 clicks");
-        // Reset while the switching key remains held; scanning must continue.
         @(negedge sys_clk); key_in=1'b0;
         repeat (24) @(negedge sys_clk);
         #3 sys_rst_n=1'b0;

@@ -1,16 +1,14 @@
 `timescale 1ns/1ps
 
-// Owner A. Default 1,000,000 samples at 50 MHz = 20 ms.
-// A stable release is required after reset before accepting a new press.
-module key_filter #(
-    parameter integer DEBOUNCE_CYCLES = 1000000
-) (
+module key_filter (
     input wire clk,
     input wire rst_n,
     input wire key_in,
     output reg key_db,
     output reg click
 );
+    parameter integer DEBOUNCE_CYCLES = 1000000;
+
     localparam integer COUNT_W = (DEBOUNCE_CYCLES <= 1)
                                  ? 1 : $clog2(DEBOUNCE_CYCLES);
     localparam [COUNT_W-1:0] COUNT_LAST = DEBOUNCE_CYCLES - 1;

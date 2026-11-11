@@ -1,14 +1,15 @@
 `timescale 1ns/1ps
-`include "lab4_defs.vh"
 
-// Owner C. Combinational RGB565 renderer, without Lab 3's one-clock register.
-// 8x8 MSB-first glyphs, scale 8, 64x64 boxes, gap 32, centered at 640x480.
 module screen_pixels (
     input wire [9:0] pix_x,
     input wire [9:0] pix_y,
     input wire [1:0] display_state,
     output reg [15:0] pix_data
 );
+    localparam [1:0] SCREEN_BAR = 2'd0;
+    localparam [1:0] SCREEN_MUST = 2'd1;
+    localparam [1:0] SCREEN_END = 2'd2;
+
     reg char_valid;
     reg [2:0] glyph;
     reg [9:0] char_begin;
@@ -55,7 +56,7 @@ module screen_pixels (
         row_bits = 8'd0;
         pix_data = 16'h0000;
         if ((pix_x < 10'd640) && (pix_y < 10'd480)) begin
-            if (display_state == `SCREEN_BAR) begin
+            if (display_state == SCREEN_BAR) begin
                 if      (pix_x < 10'd80)  pix_data = 16'hFFFF;
                 else if (pix_x < 10'd160) pix_data = 16'hFFE0;
                 else if (pix_x < 10'd240) pix_data = 16'h07FF;
@@ -66,7 +67,7 @@ module screen_pixels (
                 else                     pix_data = 16'h0000;
             end else if ((pix_y >= 10'd208) && (pix_y < 10'd272)) begin
                 case (display_state)
-                    `SCREEN_MUST: begin
+                    SCREEN_MUST: begin
                         if ((pix_x >= 10'd144) && (pix_x < 10'd208)) begin
                             char_valid=1'b1; glyph=3'd0; char_begin=10'd144;
                         end else if ((pix_x >= 10'd240) && (pix_x < 10'd304)) begin
@@ -77,7 +78,7 @@ module screen_pixels (
                             char_valid=1'b1; glyph=3'd3; char_begin=10'd432;
                         end
                     end
-                    `SCREEN_END: begin
+                    SCREEN_END: begin
                         if ((pix_x >= 10'd192) && (pix_x < 10'd256)) begin
                             char_valid=1'b1; glyph=3'd4; char_begin=10'd192;
                         end else if ((pix_x >= 10'd288) && (pix_x < 10'd352)) begin

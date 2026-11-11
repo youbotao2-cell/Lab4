@@ -47,10 +47,9 @@ module tb_screen_fsm;
             reset_now;
             repeat (i) press;
             @(negedge clk); click = 1'b1;
-            reset_now; // Reset wins even with click asserted.
+            reset_now;
             click = 1'b0;
         end
-        // Illegal state recovery is a controller unit test, not a board stimulus.
         @(negedge clk); dut.ctrl_state = 2'b11;
         @(negedge clk);
         if (ctrl_state !== `SCREEN_BAR) $fatal(1, "illegal-state recovery failed");

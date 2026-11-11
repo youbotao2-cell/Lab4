@@ -30,17 +30,17 @@ module tb_screen_pixels;
         probe(`SCREEN_BAR, 10'd400, 10'd0,   16'hF800);
         probe(`SCREEN_BAR, 10'd480, 10'd0,   16'h001F);
         probe(`SCREEN_BAR, 10'd639, 10'd479, 16'h0000);
-        probe(`SCREEN_MUST,10'd144, 10'd208, 16'hFFFF); // M first bit
-        probe(`SCREEN_MUST,10'd160, 10'd208, 16'h0000); // M zero bit
-        probe(`SCREEN_MUST,10'd208, 10'd208, 16'h0000); // character gap
-        probe(`SCREEN_MUST,10'd495, 10'd208, 16'hFFFF); // T last top bit
-        probe(`SCREEN_END, 10'd192, 10'd208, 16'hFFFF); // E top row
-        probe(`SCREEN_END, 10'd208, 10'd216, 16'h0000); // E interior
-        probe(`SCREEN_END, 10'd288, 10'd208, 16'hFFFF); // N left top
-        probe(`SCREEN_END, 10'd384, 10'd208, 16'hFFFF); // D left top
-        probe(`SCREEN_END, 10'd440, 10'd208, 16'h0000); // D right top
-        probe(`SCREEN_END, 10'd192, 10'd272, 16'h0000); // below box
-        probe(`SCREEN_BAR, 10'd640, 10'd0,   16'h0000); // outside valid width
+        probe(`SCREEN_MUST,10'd144, 10'd208, 16'hFFFF);
+        probe(`SCREEN_MUST,10'd160, 10'd208, 16'h0000);
+        probe(`SCREEN_MUST,10'd208, 10'd208, 16'h0000);
+        probe(`SCREEN_MUST,10'd495, 10'd208, 16'hFFFF);
+        probe(`SCREEN_END, 10'd192, 10'd208, 16'hFFFF);
+        probe(`SCREEN_END, 10'd208, 10'd216, 16'h0000);
+        probe(`SCREEN_END, 10'd288, 10'd208, 16'hFFFF);
+        probe(`SCREEN_END, 10'd384, 10'd208, 16'hFFFF);
+        probe(`SCREEN_END, 10'd440, 10'd208, 16'h0000);
+        probe(`SCREEN_END, 10'd192, 10'd272, 16'h0000);
+        probe(`SCREEN_BAR, 10'd640, 10'd0,   16'h0000);
         $display("PASS tb_screen_pixels: bars/glyph bits/gaps/boundaries");
         $finish;
     end

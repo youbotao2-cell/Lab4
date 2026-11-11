@@ -1,9 +1,6 @@
 `timescale 1ns/1ps
 
-module lab4_top #(
-    parameter integer DEBOUNCE_CYCLES = 1000000,
-    parameter SYNC_ACTIVE_HIGH = 1'b1
-) (
+module lab4_top (
     input wire sys_clk,
     input wire sys_rst_n,
     input wire key_in,
@@ -11,6 +8,9 @@ module lab4_top #(
     output wire vsync,
     output wire [15:0] rgb
 );
+    parameter integer DEBOUNCE_CYCLES = 1000000;
+    parameter SYNC_ACTIVE_HIGH = 1'b1;
+
     wire key_db;
     wire click;
     wire [1:0] ctrl_state;

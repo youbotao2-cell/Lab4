@@ -1,13 +1,6 @@
 `timescale 1ns/1ps
 
-// Owner C. Fixed 640x480 visible area, 800x525 complete raster.
-// Pixel stepping uses a 25 MHz enable inside the 50 MHz clock domain.
-// User reset does not stop scanning: reset must still display color bars.
-// TODO(board): verify synthesized register-initialization support, or replace
-// initialization with a board-specific power-on reset independent of user reset.
-module vga_timing #(
-    parameter SYNC_ACTIVE_HIGH = 1'b1
-) (
+module vga_timing (
     input wire clk,
     output wire [9:0] pix_x,
     output wire [9:0] pix_y,
@@ -16,6 +9,8 @@ module vga_timing #(
     output wire hsync,
     output wire vsync
 );
+    parameter SYNC_ACTIVE_HIGH = 1'b1;
+
     localparam [9:0] H_TOTAL = 10'd800;
     localparam [9:0] V_TOTAL = 10'd525;
     localparam [9:0] H_BEGIN = 10'd144; // 96 + 40 + 8

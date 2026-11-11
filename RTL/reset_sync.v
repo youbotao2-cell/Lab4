@@ -1,6 +1,5 @@
 `timescale 1ns/1ps
 
-// Asynchronous assertion, two-clock synchronous release in the control domain.
 module reset_sync (
     input wire clk,
     input wire async_rst_n,

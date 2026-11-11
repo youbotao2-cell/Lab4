@@ -37,12 +37,10 @@ module tb_key_filter;
     initial begin
         $dumpfile("build/key_filter.vcd");
         $dumpvars(0, tb_key_filter);
-        // Skip irrelevant 50 MHz edges during long physical-time waits.
         if (DEBOUNCE_CYCLES > 1000) $dumpoff;
         #3 rst_n = 1'b0;
         #24 rst_n = 1'b1;
         hold_key(1'b1, DEBOUNCE_CYCLES+8);
-        // Two brief glitches must not count as a physical click.
         if (DEBOUNCE_CYCLES > 3) begin
             hold_key(1'b0, 2); hold_key(1'b1, 2);
             hold_key(1'b0, 2); hold_key(1'b1, DEBOUNCE_CYCLES+8);
@@ -57,17 +55,17 @@ module tb_key_filter;
         end else repeat (DEBOUNCE_CYCLES+16) @(negedge clk);
         expect_clicks(1);
         hold_key(1'b0, 2*DEBOUNCE_CYCLES+8);
-        expect_clicks(1); // Long hold must not retrigger.
+        expect_clicks(1);
         if (DEBOUNCE_CYCLES > 3) begin
             hold_key(1'b1, 2); hold_key(1'b0, 2);
             hold_key(1'b1, 2); hold_key(1'b0, 2);
         end
         hold_key(1'b1, DEBOUNCE_CYCLES+8);
-        expect_clicks(1); // Release does not click.
+        expect_clicks(1);
         hold_key(1'b0, DEBOUNCE_CYCLES+8);
         expect_clicks(2);
         #3 rst_n = 1'b0;
-        #24 rst_n = 1'b1; // Still holding key: old press is discarded.
+        #24 rst_n = 1'b1;
         hold_key(1'b0, DEBOUNCE_CYCLES+12);
         expect_clicks(2);
         hold_key(1'b1, DEBOUNCE_CYCLES+8);
